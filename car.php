@@ -2,8 +2,18 @@
     session_start();
     include('connect.php');
     $type = $_POST['type'];
+    $query = "SELECT * FROM users";
+    $rs = mysql_query($query);
+    if (!$rs) {
+        echo "Could not execute query: $query";
+        trigger_error(mysql_error(), E_USER_ERROR); 
+    }
+    while ($row = mysql_fetch_assoc($rs)){
+        $_SESSION['user'] = $row['login'];
+    }
+    $user_session = $_SESSION['user'];
     if(isset($_POST['submit'])){
-        $sql = "UPDATE admin SET car = '$type' where user = ''";
+        $sql = "UPDATE admin SET car = $type where user = $user_session";
         $rs = mysql_query($sql);
         if (!$rs) {
             echo "Could not execute query: $query";
@@ -19,6 +29,7 @@
     </head>
     <body>
         <h1>Car Rental</h1>
+        <div>Welcome <?PHP echo '$user_session';?></div>
         <form method = "POST">
             <p>Select Car Type<select name = "type">
                 <option value = "SUV">SUV</option>

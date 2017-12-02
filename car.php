@@ -31,13 +31,15 @@
         <h1>Car Rental</h1>
         <div>Welcome <?PHP echo '$user_session';?></div>
         <form method = "POST">
-            <p>Select Car Type<select name = "type">
+            Select Car Type<select name = "type">
                 <option value = "SUV">SUV</option>
                 <option value = "Compact">Compact</option>
                 <option value = "Midsize">Midsize</option>
                 <option value = "Luxury">Luxury</option>
-            </select></p>
-            <p><input type = "submit" value = "Add to Cart" name = "submit"/></p>
+            </select><br>
+            Pickup<input type = "date" name = "pickup"><br>
+            Dropoff<input type = "date" name = "dropoff"><br>
+            <input type = "submit" value = "Add to Cart" name = "submit"/>
         </form>
     </body>
 </html>

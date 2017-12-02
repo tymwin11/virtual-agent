@@ -25,7 +25,7 @@
                 $_SESSION['user_first'] = $row['firstname'];
             }
             
-            $query = "Select shoppingcart.customerid, shoppingcart.date_initialized, shoppingcart_items.productid, shoppingcart_items.product_quantity, shoppingcart_items.product_price FROM shoppingcart, shoppingcart_items WHERE shoppingcart.cartid = shoppingcart_items.cartid";
+            $query = "Select * from shoppingcart";
             $rs = mysql_query($query);
 
             if (!$rs) {
@@ -33,7 +33,7 @@
                 trigger_error(mysql_error(), E_USER_ERROR); 
             }  
             while ($row = mysql_fetch_assoc($rs)){
-                $cart_count[$i] = $row['cartid'];
+                $cart_count[$i] = $row['productid'];
                 $i++;
             }
             echo "<div class='viewcart'>Welcome ".$_SESSION['user_first']." Cart: <a href='shoppingcart.php'>".count($cart_count)."</a></div>";

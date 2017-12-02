@@ -70,7 +70,7 @@
             Customer ID#:<input class="inputbox" value="<?PHP echo $_SESSION['user_id']?>"><br>
             First Name:<input class="inputbox" value="<?PHP echo $_SESSION['user_first']?>"><br>
             Last Name:<input class="inputbox" value="<?PHP echo $_SESSION['user_last']?>"><br>
-            Address:<input class="inputbox" value="<?PHP echo $_SESSION['user_adress']?>"><br>
+            Address:<input class="inputbox" value="<?PHP echo $_SESSION['user_address']?>"><br>
         </div>
         <div class="panel">
             <h2 class="panelheader">Past Purchases</h2>

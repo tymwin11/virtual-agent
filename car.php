@@ -1,6 +1,7 @@
 <?php
     session_start();
     include('connect.php');
+    include('viewcart.php');
     $type = $_POST['type'];
     $query = "SELECT * FROM users";
     $rs = mysql_query($query);
@@ -13,7 +14,7 @@
     }
     $user_session = $_SESSION['user'];
     if(isset($_POST['submit'])){
-        $sql = "UPDATE admin SET car = $type where user = $user_session";
+        $sql = "UPDATE admin SET car = $type where user =".$_SESSION['user'];
         $rs = mysql_query($sql);
         if (!$rs) {
             echo "Could not execute query: $query";
@@ -29,17 +30,14 @@
     </head>
     <body>
         <h1>Car Rental</h1>
-        <div>Welcome <?PHP echo '$user_session';?></div>
         <form method = "POST">
-            Select Car Type<select name = "type">
+            <p>Select Car Type<select name = "type">
                 <option value = "SUV">SUV</option>
                 <option value = "Compact">Compact</option>
                 <option value = "Midsize">Midsize</option>
                 <option value = "Luxury">Luxury</option>
-            </select><br>
-            Pickup<input type = "date" name = "pickup"><br>
-            Dropoff<input type = "date" name = "dropoff"><br>
-            <input type = "submit" value = "Add to Cart" name = "submit"/>
+            </select></p>
+            <p><input type = "submit" value = "Add to Cart" name = "submit"/></p>
         </form>
     </body>
 </html>

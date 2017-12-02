@@ -7,7 +7,9 @@
         $address = $_POST['address1'] . " " . $_POST['address2'];
         $query = "INSERT INTO users(login, password, firstname, lastname, address) VALUES ('". $_POST['user'] . "','" . $_POST['pass'] . "','" . $_POST['first'] . "','" . $_POST['last'] . "','" . $address . "')";
         $sql = $db->query($query);
-        if($sql)
+        $query2 = "INSERT INTO shoppingcart(customerid) SELECT customerid FROM users";
+        $sql2 = $db->query($query2);
+        if($sql && $sql2)
             header("Location: home.php");
         else
             $error = "Error: User not created";

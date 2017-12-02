@@ -23,9 +23,9 @@
                 <li class="active"><a href="home.php">Home</a></li>
                 <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Plan<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                    <li><a href="#">Flights</a></li>
-                    <li><a href="#">Rentals</a></li>
-                    <li><a href="#">Parking</a></li>
+                    <li><a href="plane.php">Flights</a></li>
+                    <li><a href="car.php">Rentals</a></li>
+                    <li><a href="parking.php">Parking</a></li>
                     </ul>
                 </li>
             </ul>

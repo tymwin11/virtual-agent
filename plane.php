@@ -23,8 +23,8 @@
             </div>
             <div>
                 <form action="plane.php" method="post">
-                    Flying from:<input type="text" value="City or airport" name="flying_from"> 
-                    Flying to:<input type="text" value="City or airport" name="flying_to"><br>
+                    Flying from:<input type="text" placeholder="City or airport" name="flying_from"> 
+                    Flying to:<input type="text" placeholder="City or airport" name="flying_to"><br>
                     Departing:<input type="date" name="departing"><br>
                     <div class="return">
                         Returning:<input type="date" name="returning">
@@ -41,20 +41,20 @@
                     <div class="multi-city">
                         <div>
                             <p>Flight 2</p>
-                            Flying from:<input type="text" value="City or airport" name="flying_from"> 
-                            Flying to:<input type="text" value="City or airport" name="flying_to"><br>
+                            Flying from:<input type="text" placeholder="City or airport" name="flying_from"> 
+                            Flying to:<input type="text" placeholder="City or airport" name="flying_to"><br>
                             Departing:<input type="date" name="depart"><br>
                         </div>
                         <div>
                             <p>Flight 3</p>
-                            Flying from:<input type="text" value="City or airport" name="flying_from"> 
-                            Flying to:<input type="text" value="City or airport" name="flying_to"><br>
+                            Flying from:<input type="text" placeholder="City or airport" name="flying_from"> 
+                            Flying to:<input type="text" placeholder="City or airport" name="flying_to"><br>
                             Departing:<input type="date" name="depart"><br>
                         </div>
                         <div>
                             <p>Flight 4</p>
-                            Flying from:<input type="text" value="City or airport" name="flying_from"> 
-                            Flying to:<input type="text" value="City or airport" name="flying_to"><br>
+                            Flying from:<input type="text" placeholder="City or airport" name="flying_from"> 
+                            Flying to:<input type="text" placeholder="City or airport" name="flying_to"><br>
                             Departing:<input type="date" name="depart"><br>
                         </div>
                     </div>

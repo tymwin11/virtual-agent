@@ -23,6 +23,7 @@
             }
             while ($row = mysql_fetch_assoc($rs)){
                 $_SESSION['user_first'] = $row['firstname'];
+                $_SESSION['id'] = $row['customerid'];
             }
             
             $query = "Select * from shoppingcart";
@@ -36,7 +37,7 @@
                 $cart_count[$i] = $row['productid'];
                 $i++;
             }
-            echo "<div class='viewcart'>Welcome ".$_SESSION['user_first']." Cart: <a href='shoppingcart.php'>".count($cart_count)."</a></div>";
+            echo "<div class='viewcart'>Cart: <a href='shoppingcart.php'>".count($cart_count)."</a></div>";
         ?>
     </body>
 </html>

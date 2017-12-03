@@ -37,7 +37,7 @@
                 $cart_count[$i] = $row['productid'];
                 $i++;
             }
-            echo "<div class='viewcart'>Cart: <a href='shoppingcart.php'>".count($cart_count)."</a></div>";
+            echo "<div class='viewcart'>Cart: <a href='checkout.php'>".count($cart_count)."</a></div>";
         ?>
     </body>
 </html>

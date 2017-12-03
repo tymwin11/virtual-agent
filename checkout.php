@@ -1,6 +1,7 @@
 <?php
     session_start();
     include('connect.php');
+    include 'header.php';
     ini_set('display_errors',1);
     if(isset($_POST['confirm'])){
         //$email = $_POST['email'];
@@ -14,12 +15,48 @@
         else
             echo "not sent";
     }
+    $query = "Select shoppingcart.date_initialized, shoppingcart.productid, shoppingcart.product_quantity, shoppingcart.product_price, inventory.name from shoppingcart, inventory where shoppingcart.productid = inventory.productid";
+    $rs = mysql_query($query);
+    if (!$rs) { 
+        echo "Could not execute query: $query";
+        trigger_error(mysql_error(), E_USER_ERROR); 
+    }
+    $x=0;
+    $sum = 0;
+    while ($row = mysql_fetch_assoc($rs)){
+        $date[$x] = $row['date_initialized'];
+        $product_id[$x] = $row['productid'];
+        $product_name[$x] = $row['name'];
+        $product_quantity[$x] = $row['product_quantity'];
+        $product_price[$x] = $row['product_price'];
+        $sum = $sum + $product_price[$x];
+        $x++;
+    }            
 ?>
 <html>
     <head>
         <title>Checkout</title>
+        <link rel="stylesheet" href="styles/checkout.css"/>
     </head>
     <body>
+        <table>
+            <caption style="font-size: 25px;">Items in Cart</caption>
+            <tr>
+                <th>Date</th>
+                <th>Product #ID</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+                <?php
+                    for($j=0; $j < count($product_id); $j++){
+                        echo "<tr><td>".$date[$j]."</td><td>".$product_id[$j]."</td><td>".$product_name[$j]."</td><td>".$product_quantity[$j]."</td><td>".$product_price[$j]."</td></tr>";
+                    }
+                ?>
+            <tr>
+                <td colspan="5" style="text-align: right"><?php echo "Total: $".$sum?></td>
+            </tr>
+        </table>
         <h1>Cart Checkout</h1>
         Card Number:<span id = result></span><br>
         <input onchange = "validate()" type = "number" id = "cardNum" size = "18" max = "9999999999999999"><br>

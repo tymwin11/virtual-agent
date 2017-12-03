@@ -1,0 +1,38 @@
+.booking {
+    background-color: rgb(29, 29, 29);
+    color: white;
+    width: 100%;
+    padding: 25px;
+}
+label{
+    background-color: grey;
+    border-radius: 5px;
+    margin: auto;
+    padding: 5px;
+}
+
+input, select{
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    color: black;
+}
+.flights{
+    background: white;
+    height: 50%;
+}
+table{
+    margin: auto;
+    width: 85%;
+    margin-top: 30px;
+    border-collapse: collapse;
+}
+th, td{
+    border: 1px solid lightgrey;
+    text-align: center;
+}
+
+tr:hover{
+    background-color: lightgrey;
+}
+

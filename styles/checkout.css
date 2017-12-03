@@ -1,0 +1,19 @@
+table{
+    margin: auto;
+    width: 85%;
+    margin-top: 30px;
+    border-collapse: collapse;
+}
+th, td{
+    border: 1px solid lightgrey;
+    text-align: center;
+}
+
+body{
+    color: white;
+}
+
+input{
+    color: black;
+}
+

@@ -9,11 +9,11 @@
         $subject = "Tacocat Travels Confirmation";
         $body = "this test";
         //$body = "$name , \n Thank you for booking your trip with Tacocat Travels. \n Destination: $destination \n Seat: $seat \n Rental Car: $car \n Pre-Pay Parking: $parking";
-        $mail = mail($email, $subject, $body);
-        if($mail)
+        mail($email, $subject, $body);
+        /*if($mail)
             echo "confirmation email sent";
         else
-            echo "not sent";
+            echo "not sent";*/
     }
     $query = "Select shoppingcart.date_initialized, shoppingcart.productid, shoppingcart.product_quantity, shoppingcart.product_price, inventory.name from shoppingcart, inventory where shoppingcart.productid = inventory.productid";
     $rs = mysql_query($query);
@@ -39,6 +39,7 @@
         <link rel="stylesheet" href="styles/checkout.css"/>
     </head>
     <body>
+        <h1>Cart Checkout</h1>
         <table>
             <caption style="font-size: 25px;">Items in Cart</caption>
             <tr>
@@ -57,16 +58,36 @@
                 <td colspan="5" style="text-align: right"><?php echo "Total: $".$sum?></td>
             </tr>
         </table>
-        <h1>Cart Checkout</h1>
-        Card Number:<span id = result></span><br>
+        <h2>Billing Information</h2>
+        <div id = "bill_info">
+            First Name<br>
+            <input type = "text" id = "first_name"><br>
+            Last Name<br>
+            <input type = "text" id = "last_name"><br>
+            Address<br>
+            <input type = "text" id = "address1"><br>
+            <input type = "text" id = "address2"><br>
+            City<br>
+            <input type = "text" id = "city"><br>
+            State<br>
+            <input type = "text" id = "state" max = "2"><br>
+            Country<br>
+            <input type = "text" id = "country"><br>
+        </div>
+        <h2>Shipping Information</h2>
+        <input onclick = "shipping()" type = "radio" name = "ship" id = "same" value = "same" checked>Ship to same Address<br>
+        <input onclick = "shipping()" type = "radio" name = "ship" id = "dif" value = "different">Ship to different Address<br>
+        <div id = "ship_info"></div>
+        <h2>Payment Information</h2>
+        Card Number<span id = result></span><br>
         <input onchange = "validate()" type = "number" id = "cardNum" size = "18" max = "9999999999999999"><br>
-        Security Code:<br>
+        Security Code<br>
         <input type = "number" id = "security" size = "5" max = "999"><br>
-        Name on card:<br>
+        Name on card<br>
         <input type = "text" id = "name" size = "15"><br>
-        Expiration:<br>
+        Expiration<br>
         <input type = "month" id = "month" size = "4" max = "12"><br>
-        Email:<br>
+        Email<br>
         <form method = "post">
             <input type = "text" name = "email">
             <input type = "submit" name = "confirm" value = "confirm"> 
@@ -88,6 +109,16 @@
                     document.getElementById("result").innerHTML = "<img width = '40' style = 'margin: auto' src = 'src/discover.png'/>";
                 else
                     document.getElementById("result").innerHTML = "";
+            }
+            function shipping(){
+                var checked = document.getElementById("dif").checked;
+                var info = document.getElementById("bill_info").innerHTML;
+                if(checked == true){
+                    document.getElementById("ship_info").innerHTML = info;
+                }
+                else{
+                    document.getElementById("ship_info").innerHTML = "";
+                }
             }
         </script>
     </body>

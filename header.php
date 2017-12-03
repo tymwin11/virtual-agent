@@ -7,8 +7,6 @@
     <meta charset="UTF-8"/>
     <title>Tacocat Travel Agency - Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles/styles.css"/>
-    <link rel="stylesheet" href="styles/login.css"/>
     <link rel="stylesheet" href="styles/home.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -35,7 +33,7 @@
                     $login_bar = "<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"login.php\"><span class=\"glyphicon glyphicon-log-in\"></span> Login</a></li></ul>";
                     echo $login_bar;
                 } else {
-                    $login_bar = "<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"profile.php\">Hey ".$_SESSION['user_first']."<a href=\"logout.php\">Sign out</a></a></li></ul>";
+                    $login_bar = "<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"profile.php\">Hey ".$_SESSION['user_first']."</a></li><li><a href=\"logout.php\">Sign out</a></li></ul>";
                     echo $login_bar;
                 }
             ?>   

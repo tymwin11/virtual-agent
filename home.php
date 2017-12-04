@@ -1,6 +1,7 @@
 <?php
     session_start();
     include('connect.php');
+    include('header.php');
 ?>
 <html>
 <head>
@@ -12,41 +13,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-inverse" id="nav">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="home.php">Tacocat Travels</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="home.php">Home</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Plan<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                    <li><a href="plane.php">Flights</a></li>
-                    <li><a href="car.php">Rentals</a></li>
-                    <li><a href="parking.php">Parking</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <?php 
-                echo $_SESSION['id'];
-                if ($_SESSION['id'] == null) {
-                    $login_bar = "<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"login.php\"><span class=\"glyphicon glyphicon-log-in\"></span> Login</a></li></ul>";
-                    echo $login_bar;
-                } else {
-                    $login_bar = "<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"profile.php\">Hey</a></li></ul>";
-                    echo $login_bar;
-                }
-            ?>   
-        </div>
-    </nav>
+    
     <div id = "images">
-        <a target = "_blank" href = "src/plane.jpg">
+        <a href = "plane.php">
             <img src = "src/plane.jpg">
         </a>
         <a href = "car.php">
             <img src = "src/car.jpg">
         </a>
-        <a target = "_blank" href = "src/parking.jpg">
+        <a href = "park.php">
             <img src = "src/parking.jpg">
         </a>
     </div>

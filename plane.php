@@ -43,23 +43,22 @@
         </div>
         <?php
             if(isset($_POST['submit'])){
-                $from = $_POST['flying_from'];
-                $to = $_POST['flying_to'];
+                $_SESSION['from'] = $_POST['flying_from'];
+                $_SESSION['to'] = $_POST['flying_to'];
                 $date1=date_create($_POST['departing']);
                 $date2=date_create($_POST['returning']);
                 $diff=date_diff($date1,$date2);
                 $days = $diff->format("%a");
-                $dep_date =date_format($date1, "m/d/Y");
-                $arr_date = date_format($date2, "m/d/Y");
-                $query = "insert into flight(departure_city, arrival_city, departure_date, arrival_date) values('".$from."','".$to."','".$dep_date."','".$arr_date."')";
+                $_SESSION['dep_date'] = date_format($date1, "m/d/Y");
+                $_SESSION['arr_date'] = date_format($date2, "m/d/Y");
+                $query = "insert into flight(departure_city, arrival_city, departure_date, arrival_date) values('".$_SESSION['from']."','".$_SESSION['to']."','".$_SESSION['dep_date']."','".$_SESSION['arr_date']."')";
                 $rs = mysql_query($query);
                     if (!$rs) {
                         echo "query could not be executed";
                         trigger_error(mysql_error(), E_USER_ERROR); 
                     }
-                $price = 100 + $days * 15;
-                $price2 = 100 + $days * 15;
-            }
+                $_SESSION['price'] = 100 + $days * 15;
+            
                 $query = "select * from flight";
                 $rs = mysql_query($query);
                     if (!$rs) {
@@ -67,17 +66,18 @@
                         trigger_error(mysql_error(), E_USER_ERROR); 
                     }
                 while($row = mysql_fetch_assoc($rs)){
-                    $flightid = $row['flightid'];
+                    $_SESSION['flightid'] = $row['flightid'];
                 }
                 $query = "select * from time where flightid = 1";
                 $rs = mysql_query($query);
-                    if (!$rs) {
-                        echo "query could not be executed";
-                        trigger_error(mysql_error(), E_USER_ERROR); 
-                    }
-                    while($row = mysql_fetch_assoc($rs)){
-                    $dep_time[$i] = $row['depareture_time'];
-                    $arr_time[$i] = $row['arrival_time'];
+                if (!$rs) {
+                    echo "query could not be executed";
+                    trigger_error(mysql_error(), E_USER_ERROR); 
+                }
+                $i=0;
+                while($row = mysql_fetch_assoc($rs)){
+                    $_SESSION['dep_time'] = $row['depareture_time'];
+                    $_SESSION['arr_time'] = $row['arrival_time'];
                     $i++;
                 }
                 $query = "select * from seat where flightid = 1 and timeid = 1";
@@ -91,6 +91,7 @@
                     $seat_number[$x] = $row['seatnumber'];
                     $x++;
                 }
+            }
             ?>
         <div class="flights">
             <table>
@@ -104,23 +105,14 @@
                     <th>Price</th>
                 </tr>
                 <tr>
-                    <td><?php echo $dep_date ?></td>
-                    <td><?php echo $dep_time[0] ?></td>
-                    <td><?php echo $arr_time[0] ?></td>
-                    <td><?php echo $from ?></td>
-                    <td><?php echo $to ?></td>
-                    <td><?php echo $price ?></td>
+                    <td><?php echo $_SESSION['dep_date']; ?></td>
+                    <td><?php echo $_SESSION['dep_time']; ?></td>
+                    <td><?php echo $_SESSION['arr_time']; ?></td>
+                    <td><?php echo $_SESSION['from']; ?></td>
+                    <td><?php echo $_SESSION['to']; ?></td>
+                    <td><?php echo $_SESSION['price']; ?></td>
                 </tr>
             </table>
-            Available Seats:<select name="seat_dep">
-            <?php
-                $i=0; 
-                while($i <= $x){
-                    echo "<option value=\"'.$seat_number[$i].'\">".$seat_number[$i]."</option>";
-                    $i++;
-                } 
-            ?>
-            </select>
             <div class="return">
             <table>
                 <caption style="font-size: 25px;">Return Flights</caption>
@@ -133,36 +125,90 @@
                     <th>Price</th>
                 </tr>
                 <tr>
-                     <td><?php echo $arr_date ?></td>
-                    <td><?php echo $dep_time[0] ?></td>
-                    <td><?php echo $arr_time[0] ?></td>
-                    <td><?php echo $to ?></td>
-                    <td><?php echo $from ?></td>
-                    <td><?php echo $price2 ?></td>
+                    <td><?php echo $_SESSION['arr_date']; ?></td>
+                    <td><?php echo $_SESSION['dep_time']; ?></td>
+                    <td><?php echo $_SESSION['arr_time']; ?></td>
+                    <td><?php echo $_SESSION['to']; ?></td>
+                    <td><?php echo $_SESSION['from']; ?></td>
+                    <td><?php echo $_SESSION['price']; ?></td>
                 </tr>
             </table>
                 <form method="post">
-                    Available Seats:<select name="seat_arr">
+                    Available Depature Seats:<select name="seat_dep">
                     <?php
-                        $i=0;
-                        $cancel[$i];
+                        $i=0; 
                         while($i <= $x){
-                            echo "<option value=\"'.$seat_number[$i].'\">".$seat_number[$i]."</option>";
+                            echo "<option value=\"'$seat_number[$i]'\">".$seat_number[$i]."</option>";
                             $i++;
-                        }
-                        $plane_inventory1 = $from."-".$to." ".$date1." ".$dep_time."-".$arr_time." Seat:".$_POST['seat_dep'];
-                        $plane_inventory2 = $to."-".$from." ".$date2." ".$dep_time."-".$arr_time." Seat:".$_POST['seat_arr'];
-                        echo $plane_inventory1;
-                        echo $plane_inventory2;
+                        } 
                     ?>
                     </select>
+                    Available Arrival Seats:<select name="seat_arr">
+                    <?php
+                        $i=0;
+                        while($i <= $x){
+                            echo "<option value=\"'$seat_number[$i]'\">".$seat_number[$i]."</option>";
+                            $i++;
+                        }
+                    ?>
+                    </select><br>
                     <input type="submit" value="Add to Cart" name="addtocart">
+                    <?php 
+                        if(isset($_POST['addtocart'])){
+                            $seatdep = $_POST['seat_dep'];
+                            $seatarr = $_POST['seat_arr'];
+                            $plane_inventory1 = $_SESSION['dep_date']." ".$_SESSION['from']." ".$_SESSION['to']." ".$_SESSION['dep_time']." ".$_SESSION['arr_time']." Seat: '$seatdep'";
+                            $plane_inventory2 = $_SESSION['arr_date']." ".$_SESSION['to']." ".$_SESSION['from']." ".$_SESSION['dep_time']." ".$_SESSION['arr_time']." Seat: '$seatarr'";
+                            $query = "insert into inventory(name,price,quantity) values('".$plane_inventory1."',".$_SESSION['price'].",1)";
+                            $rs = mysql_query($query);
+                            if (!$rs) {
+                                echo "query could not be executed";
+                                trigger_error(mysql_error(), E_USER_ERROR); 
+                            }
+                            $query = "select * from inventory";
+                            $rs = mysql_query($query);
+                            if (!$rs) {
+                                echo "query could not be executed";
+                                trigger_error(mysql_error(), E_USER_ERROR); 
+                            }
+                            while($row = mysql_fetch_assoc($rs)){
+                                $_SESSION['productid'] = $row['productid'];
+                            }
+                            $query = "insert into shoppingcart(customerid, productid, product_quantity, product_price) values(".$_SESSION['user_id'].", ".$_SESSION['productid'].",1,".$_SESSION['price'].")";
+                            $rs = mysql_query($query);
+                            if (!$rs) {
+                                echo "query could not be executed";
+                                trigger_error(mysql_error(), E_USER_ERROR); 
+                            }
+                            $query = "insert into inventory(name,price,quantity) values('".$plane_inventory2."',".$_SESSION['price'].",1)";
+                            $rs = mysql_query($query);
+                            if (!$rs) {
+                                echo "query could not be executed";
+                                trigger_error(mysql_error(), E_USER_ERROR); 
+                            }
+                            $query = "select * from inventory";
+                            $rs = mysql_query($query);
+                            if (!$rs) {
+                                echo "query could not be executed";
+                                trigger_error(mysql_error(), E_USER_ERROR); 
+                            }
+                            while($row = mysql_fetch_assoc($rs)){
+                                $_SESSION['productid'] = $row['productid'];
+                            }
+                            $query = "insert into shoppingcart(customerid, productid, product_quantity, product_price) values(".$_SESSION['user_id'].", ".$_SESSION['productid'].",1,".$_SESSION['price'].")";
+                            $rs = mysql_query($query);
+                            if (!$rs) {
+                                echo "query could not be executed";
+                                trigger_error(mysql_error(), E_USER_ERROR); 
+                            }
+                        }
+                    ?>
                 </form>    
             </div>
         </div>
         <script>
             $(document).ready(function(){
-                $(".oneway").css("background-color","blue");
+                $(".roundtrip").css("background-color","blue");
                 $(".oneway").click(function(){
                     $(".return").hide();
                     $(".oneway").css("background-color","blue");

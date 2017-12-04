@@ -17,7 +17,7 @@
         <a href = "car.php">
             <img src = "src/car.jpg">
         </a>
-        <a href = "park.php">
+        <a href = "parking.php">
             <img src = "src/parking.jpg">
         </a>
     </div>

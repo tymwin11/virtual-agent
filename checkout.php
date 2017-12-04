@@ -9,11 +9,11 @@
         $subject = "Tacocat Travels Confirmation";
         $body = "this test";
         //$body = "$name , \n Thank you for booking your trip with Tacocat Travels. \n Destination: $destination \n Seat: $seat \n Rental Car: $car \n Pre-Pay Parking: $parking";
-        $mail = mail($email, $subject, $body);
-        if($mail)
+        mail($email, $subject, $body);
+        /*if($mail)
             echo "confirmation email sent";
         else
-            echo "not sent";
+            echo "not sent";*/
     }
     $query = "Select shoppingcart.productid, shoppingcart.product_quantity, shoppingcart.product_price, inventory.name from shoppingcart, inventory where shoppingcart.productid = inventory.productid";
     $rs = mysql_query($query);
@@ -21,13 +21,15 @@
         echo "Could not execute query: $query";
         trigger_error(mysql_error(), E_USER_ERROR); 
     }
+    $x=0;
     $sum = 0;
     while ($row = mysql_fetch_assoc($rs)){
-        $_SESSION['product_id'] = $row['productid'];
-        $_SESSION['product_name'] = $row['name'];
-        $_SESSION['product_quantity'] = $row['product_quantity'];
-        $_SESSION['product_price'] = $row['product_price'];
-        $sum = $sum + $_SESSION['product_price'];
+        $product_id[$x] = $row['productid'];
+        $product_name[$x] = $row['name'];
+        $product_quantity[$x] = $row['product_quantity'];
+        $product_price[$x] = $row['product_price'];
+        $sum = $sum + $product_price[$x];
+        $x++;
     }            
 ?>
 <html>
@@ -36,39 +38,67 @@
         <link rel="stylesheet" href="styles/checkout.css"/>
     </head>
     <body>
+        <h1>Cart Checkout</h1>
         <table>
             <caption style="font-size: 25px;">Items in Cart</caption>
             <tr>
-                <th>Date</th>
                 <th>Product #ID</th>
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Price</th>
             </tr>
                 <?php
-                    for($j=0; $j < 10; $j++){
-                        echo "<tr><td>".$_SESSION['product_id']."</td><td>".$_SESSION['product_name']."</td><td>".$_SESSION['product_quantity']."</td><td>".$_SESSION['product_price']."</td></tr>";
+                    for($j=0; $j < count($product_id); $j++){
+                        echo "<tr><td>".$product_id[$j]."</td><td>".$product_name[$j]."</td><td>".$product_quantity[$j]."</td><td>".$product_price[$j]."</td></tr>";
                     }
                 ?>
             <tr>
-                <td colspan="5" style="text-align: right"><?php echo "Total: $".$sum?></td>
+                <td colspan="4" style="text-align: right"><span style="color: red" id = "discount"></span>Coupon Code<input type = "text"/><button onclick = "coupon()">Apply</button></td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: right"><?php echo "Total: $".$sum?></td>
             </tr>
         </table>
-        <h1>Cart Checkout</h1>
-        Card Number:<span id = result></span><br>
+        <h2>Billing Information</h2>
+        <div id = "bill_info">
+            First Name<br>
+            <input type = "text" id = "first_name"><br>
+            Last Name<br>
+            <input type = "text" id = "last_name"><br>
+            Address<br>
+            <input type = "text" id = "address1"><br>
+            <input type = "text" id = "address2"><br>
+            City<br>
+            <input type = "text" id = "city"><br>
+            State<br>
+            <input type = "text" id = "state" max = "2"><br>
+            Country<br>
+            <input type = "text" id = "country"><br>
+        </div>
+        Phone Number<br>
+        <input type = "number" id = "phone"><br>
+        <h2>Shipping Information</h2>
+        <input onclick = "shipping()" type = "radio" name = "ship" id = "same" value = "same" checked>Ship to same Address<br>
+        <input onclick = "shipping()" type = "radio" name = "ship" id = "dif" value = "different">Ship to different Address<br>
+        <div id = "ship_info"></div>
+        <h2>Payment Information</h2>
+        Card Number<span id = result></span><br>
         <input onchange = "validate()" type = "number" id = "cardNum" size = "18" max = "9999999999999999"><br>
-        Security Code:<br>
+        Security Code<br>
         <input type = "number" id = "security" size = "5" max = "999"><br>
-        Name on card:<br>
+        Name on card<br>
         <input type = "text" id = "name" size = "15"><br>
-        Expiration:<br>
+        Expiration<br>
         <input type = "month" id = "month" size = "4" max = "12"><br>
-        Email:<br>
+        Email<br>
         <form method = "post">
             <input type = "text" name = "email">
             <input type = "submit" name = "confirm" value = "confirm"> 
         </form>
         <script>
+            function coupon(){
+                document.getElementById("discount").innerHTML = "Invalid Promo Code";
+            }
             function validate(){
                 var num = document.getElementById("cardNum").value;
                 var master = /^(5[1-5]|22([3-9][0-9]|2[1-9])|2([3-6][0-9]{2}|7([0-1][0-9]|20)))/g;
@@ -85,6 +115,16 @@
                     document.getElementById("result").innerHTML = "<img width = '40' style = 'margin: auto' src = 'src/discover.png'/>";
                 else
                     document.getElementById("result").innerHTML = "";
+            }
+            function shipping(){
+                var checked = document.getElementById("dif").checked;
+                var info = document.getElementById("bill_info").innerHTML;
+                if(checked == true){
+                    document.getElementById("ship_info").innerHTML = info;
+                }
+                else{
+                    document.getElementById("ship_info").innerHTML = "";
+                }
             }
         </script>
     </body>

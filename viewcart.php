@@ -16,18 +16,22 @@
             session_start();
             include('connect.php');
             
-            
-            $query = "Select * from shoppingcart";
+            if ($_SESSION['signin']){
+            $query = "Select * from shoppingcart where customerid =".$_SESSION['user_id'];
             $rs = mysql_query($query);
 
             if (!$rs) {
                 echo "Could not execute query: $query";
                 trigger_error(mysql_error(), E_USER_ERROR); 
-            }  
-            while ($row = mysql_fetch_assoc($rs)){
-                $_SESSION['cart_count'] = $row['productid'];
             }
-            echo "<div class='viewcart'>Cart: <a href='checkout.php'>".count($_SESSION['cart_count'])."</a></div>";
+            }
+            $i = 0;
+            $_SESSION['cartcount']=0;
+            while ($row = mysql_fetch_assoc($rs)){
+                $i++;
+                $_SESSION['cartcount'] = $i;
+            }
+            echo "<div class='viewcart'>Cart: <a href='checkout.php'>".$_SESSION['cartcount']."</a></div>";
         ?>
     </body>
 </html>

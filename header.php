@@ -40,5 +40,4 @@
         </div>
     </nav>
 </body>
-<script src="scripts/scripts.js"></script>
 </html>

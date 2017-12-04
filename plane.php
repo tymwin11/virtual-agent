@@ -3,7 +3,6 @@
     include 'connect.php';
     include 'header.php';
 ?>
-<!DOCTYPE html>
 
 <html>
     <head>
@@ -38,19 +37,61 @@
                     <div class="return">
                         Returning:<input type="date" name="returning">
                     </div>
-                    People:<select name="num_people">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                    </select><br>
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="Submit" name="submit">
                 </form>
             </div>
         </div>
+        <?php
+            if(isset($_POST['submit'])){
+                $from = $_POST['flying_from'];
+                $to = $_POST['flying_to'];
+                $date1=date_create($_POST['departing']);
+                $date2=date_create($_POST['returning']);
+                $diff=date_diff($date1,$date2);
+                $days = $diff->format("%a");
+                $dep_date =date_format($date1, "m/d/Y");
+                $arr_date = date_format($date2, "m/d/Y");
+                $query = "insert into flight(departure_city, arrival_city, departure_date, arrival_date) values('".$from."','".$to."','".$dep_date."','".$arr_date."')";
+                $rs = mysql_query($query);
+                    if (!$rs) {
+                        echo "query could not be executed";
+                        trigger_error(mysql_error(), E_USER_ERROR); 
+                    }
+                $price = 100 + $days * 15;
+                $price2 = 100 + $days * 15;
+            }
+                $query = "select * from flight";
+                $rs = mysql_query($query);
+                    if (!$rs) {
+                        echo "query could not be executed";
+                        trigger_error(mysql_error(), E_USER_ERROR); 
+                    }
+                while($row = mysql_fetch_assoc($rs)){
+                    $flightid = $row['flightid'];
+                }
+                $query = "select * from time where flightid = 1";
+                $rs = mysql_query($query);
+                    if (!$rs) {
+                        echo "query could not be executed";
+                        trigger_error(mysql_error(), E_USER_ERROR); 
+                    }
+                    while($row = mysql_fetch_assoc($rs)){
+                    $dep_time[$i] = $row['depareture_time'];
+                    $arr_time[$i] = $row['arrival_time'];
+                    $i++;
+                }
+                $query = "select * from seat where flightid = 1 and timeid = 1";
+                $rs = mysql_query($query);
+                    if (!$rs) {
+                        echo "query could not be executed";
+                        trigger_error(mysql_error(), E_USER_ERROR); 
+                    }
+                    $x=0;
+                    while($row = mysql_fetch_assoc($rs)){
+                    $seat_number[$x] = $row['seatnumber'];
+                    $x++;
+                }
+            ?>
         <div class="flights">
             <table>
                 <caption style="font-size: 25px;">Departure Flight</caption>
@@ -63,16 +104,25 @@
                     <th>Price</th>
                 </tr>
                 <tr>
-                    <td>12/12/2017</td>
-                    <td>10:00</td>
-                    <td>12:00</td>
-                    <td>Los Angeles</td>
-                    <td>Atlanta</td>
-                    <td>150</td>
+                    <td><?php echo $dep_date ?></td>
+                    <td><?php echo $dep_time[0] ?></td>
+                    <td><?php echo $arr_time[0] ?></td>
+                    <td><?php echo $from ?></td>
+                    <td><?php echo $to ?></td>
+                    <td><?php echo $price ?></td>
                 </tr>
             </table>
-            
-            <table class="return">
+            Available Seats:<select name="seat_dep">
+            <?php
+                $i=0; 
+                while($i <= $x){
+                    echo "<option value=\"'.$seat_number[$i].'\">".$seat_number[$i]."</option>";
+                    $i++;
+                } 
+            ?>
+            </select>
+            <div class="return">
+            <table>
                 <caption style="font-size: 25px;">Return Flights</caption>
                 <tr>
                     <th>Date</th>
@@ -83,17 +133,36 @@
                     <th>Price</th>
                 </tr>
                 <tr>
-                     <td>12/19/2017</td>
-                    <td>1:00</td>
-                    <td>2:00</td>
-                    <td>Atlanta</td>
-                    <td>Los Angeles</td>
-                    <td>150</td>
+                     <td><?php echo $arr_date ?></td>
+                    <td><?php echo $dep_time[0] ?></td>
+                    <td><?php echo $arr_time[0] ?></td>
+                    <td><?php echo $to ?></td>
+                    <td><?php echo $from ?></td>
+                    <td><?php echo $price2 ?></td>
                 </tr>
             </table>
+                <form method="post">
+                    Available Seats:<select name="seat_arr">
+                    <?php
+                        $i=0;
+                        $cancel[$i];
+                        while($i <= $x){
+                            echo "<option value=\"'.$seat_number[$i].'\">".$seat_number[$i]."</option>";
+                            $i++;
+                        }
+                        $plane_inventory1 = $from."-".$to." ".$date1." ".$dep_time."-".$arr_time." Seat:".$_POST['seat_dep'];
+                        $plane_inventory2 = $to."-".$from." ".$date2." ".$dep_time."-".$arr_time." Seat:".$_POST['seat_arr'];
+                        echo $plane_inventory1;
+                        echo $plane_inventory2;
+                    ?>
+                    </select>
+                    <input type="submit" value="Add to Cart" name="addtocart">
+                </form>    
+            </div>
         </div>
         <script>
             $(document).ready(function(){
+                $(".oneway").css("background-color","blue");
                 $(".oneway").click(function(){
                     $(".return").hide();
                     $(".oneway").css("background-color","blue");

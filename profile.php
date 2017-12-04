@@ -41,7 +41,7 @@
         <?PHP 
             session_start();
             include('connect.php');
-            include('header');
+            include('header.php');
             $query1 = "SELECT * FROM users";
             $rs = mysql_query($query1);
             if (!$rs) {

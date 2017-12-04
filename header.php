@@ -30,7 +30,7 @@
             <?php
                 include('viewcart.php');
                 if ($_SESSION['id'] == null) {
-                    $login_bar = "<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"login.php\"><span class=\"glyphicon glyphicon-log-in\"></span> Login</a></li></ul>";
+                    $login_bar = "<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"register.php\"><span class=\"glyphicon glyphicon-user\"></span> Sign Up</a></li><li><a href=\"login.php\"><span class=\"glyphicon glyphicon-log-in\"></span> Login</a></li></ul>";
                     echo $login_bar;
                 } else {
                     $login_bar = "<ul class=\"nav navbar-nav navbar-right\"><li><a href=\"profile.php\">Hey ".$_SESSION['user_first']."</a></li><li><a href=\"logout.php\">Sign out</a></li></ul>";

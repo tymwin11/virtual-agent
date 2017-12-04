@@ -1,29 +1,69 @@
 <?php
     session_start();
     include('connect.php');
-    include('viewcart.php');
     include('header.php');
-    $type = $_POST['type'];
-    $query = "SELECT * FROM users";
-    $rs = mysql_query($query);
-    if (!$rs) {
-        echo "Could not execute query: $query";
-        trigger_error(mysql_error(), E_USER_ERROR); 
-    }
-    while ($row = mysql_fetch_assoc($rs)){
-        $_SESSION['user'] = $row['login'];
-    }
-    $user_session = $_SESSION['user'];
     if(isset($_POST['submit'])){
-        $sql = "UPDATE shoppingcart SET car = $type where user = $user_session";
+        $type = $_POST['section'];
+        $customerid = $_SESSION['user_id'];
+        $fee = $type . " Fee";
+        $sql = "SELECT productid, price, quantity FROM inventory WHERE name = '$fee'";
+        $result = mysql_query($sql);
+        if (mysql_num_rows($result) > 0) {
+            while($row = mysql_fetch_assoc($result)) {
+                $productid = $row["productid"];
+                $product_price = $row["price"];
+                $product_quantity = $row["quantity"];
+            }
+        } 
+        else {
+            //echo "0 results";
+        }
+        $sql = "INSERT INTO shoppingcart VALUES($customerid, $productid, 1, $product_price)";
         $rs = mysql_query($sql);
         if (!$rs) {
-            echo "Could not execute query: $query";
+            echo "Could not execute query: $sql";
             trigger_error(mysql_error(), E_USER_ERROR); 
         }
-        $rs = mysql_query($query);
-        mysql_close();
-    } 
+        $product_quantity-=1;
+        $sql = "UPDATE inventory SET quantity = $product_quantity WHERE productid = $productid";
+        $rs = mysql_query($sql);
+        if (!$rs) {
+            echo "Could not execute query: $sql";
+            trigger_error(mysql_error(), E_USER_ERROR); 
+        }
+        //DATE
+        $date1=date_create($_POST['leave_day']);
+        $date2=date_create($_POST['return_day']);
+        $diff=date_diff($date1,$date2);
+        $days = $diff->format("%a");
+        $daily = $type . " Per Day";
+        $sql = "SELECT productid, price, quantity FROM inventory WHERE name = '$daily'";
+        $result = mysql_query($sql);
+        if (mysql_num_rows($result) > 0) {
+            while($row = mysql_fetch_assoc($result)) {
+                $productid = $row["productid"];
+                $product_price = $row["price"];
+                $product_quantity = $row["quantity"];
+            }
+        } 
+        else {
+            //echo "0 results";
+        }
+        $product_price *= $days;
+        $sql = "INSERT INTO shoppingcart VALUES($customerid, $productid, $days, $product_price)";
+        $rs = mysql_query($sql);
+        if (!$rs) {
+            echo "Could not execute query: $sql";
+            trigger_error(mysql_error(), E_USER_ERROR); 
+        }
+        $product_quantity -= $days;
+        $sql = "UPDATE inventory SET quantity = $product_quantity WHERE productid = $productid";
+        $rs = mysql_query($sql);
+        if (!$rs) {
+            echo "Could not execute query: $sql";
+            trigger_error(mysql_error(), E_USER_ERROR); 
+        }
+    }
 ?>
 <html>
     <head>
@@ -71,8 +111,8 @@
                     ?>
                 </select><br>
                 Select Parking Section<select name = "section">
-                    <option value = "Regular">Regular</option>
-                    <option value = "VIP">VIP</option>
+                    <option value = "Regular Parking">Regular</option>
+                    <option value = "VIP Parking">VIP</option>
                 </select><br>
                 <input type = "submit" value = "Add to Cart" name = "submit"/>
             </form>

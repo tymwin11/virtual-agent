@@ -2,18 +2,16 @@
     session_start();
     include('connect.php');
     include 'header.php';
-    ini_set('display_errors',1);
+    //ini_set('display_errors',1);
+    $customer = $_SESSION['user_id'];
+    $date = date("Y-m-d");
     if(isset($_POST['confirm'])){
-        //$email = $_POST['email'];
-        $email = "helloppl1116@gmail.com";
-        $subject = "Tacocat Travels Confirmation";
-        $body = "this test";
-        //$body = "$name , \n Thank you for booking your trip with Tacocat Travels. \n Destination: $destination \n Seat: $seat \n Rental Car: $car \n Pre-Pay Parking: $parking";
-        mail($email, $subject, $body);
-        /*if($mail)
-            echo "confirmation email sent";
-        else
-            echo "not sent";*/
+        $sql = "INSERT INTO orders(customerid, date_purchased) VALUES($customer, DATE('$date'))";
+        $rs = mysql_query($sql);
+        if (!$rs) {
+            echo "Could not execute query: $sql";
+            trigger_error(mysql_error(), E_USER_ERROR); 
+        }
     }
     $query = "Select shoppingcart.productid, shoppingcart.product_quantity, shoppingcart.product_price, inventory.name from shoppingcart, inventory where shoppingcart.productid = inventory.productid";
     $rs = mysql_query($query);
@@ -30,7 +28,13 @@
         $product_price[$x] = $row['product_price'];
         $sum = $sum + $product_price[$x];
         $x++;
-    }            
+    }
+    $sql = "TRUNCATE table shoppingcart";
+    $rs = mysql_query($sql);
+    if (!$rs) {
+        echo "Could not execute query: $sql";
+        trigger_error(mysql_error(), E_USER_ERROR); 
+    }        
 ?>
 <html>
     <head>
@@ -39,59 +43,60 @@
     </head>
     <body>
         <h1>Cart Checkout</h1>
-        <table>
-            <caption style="font-size: 25px;">Items in Cart</caption>
-            <tr>
-                <th>Product #ID</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-            </tr>
-                <?php
-                    for($j=0; $j < $x; $j++){
-                        echo "<tr><td>".$product_id[$j]."</td><td>".$product_name[$j]."</td><td>".$product_quantity[$j]."</td><td>".$product_price[$j]."</td></tr>";
-                    }
-                ?>
-            <tr>
-                <td colspan="4" style="text-align: right"><span style="color: red" id = "discount"></span>Coupon Code<input type = "text"/><button onclick = "coupon()">Apply</button></td>
-            </tr>
-            <tr>
-                <td colspan="4" style="text-align: right"><?php echo "Total: $".$sum?></td>
-            </tr>
-        </table>
-        <h2>Billing Information</h2>
-        <div id = "bill_info">
-            First Name<br>
-            <input type = "text" id = "first_name"><br>
-            Last Name<br>
-            <input type = "text" id = "last_name"><br>
-            Address<br>
-            <input type = "text" id = "address1"><br>
-            <input type = "text" id = "address2"><br>
-            City<br>
-            <input type = "text" id = "city"><br>
-            State<br>
-            <input type = "text" id = "state" max = "2"><br>
-            Country<br>
-            <input type = "text" id = "country"><br>
-        </div>
-        Phone Number<br>
-        <input type = "number" id = "phone"><br>
-        <h2>Shipping Information</h2>
-        <input onclick = "shipping()" type = "radio" name = "ship" id = "same" value = "same" checked>Ship to same Address<br>
-        <input onclick = "shipping()" type = "radio" name = "ship" id = "dif" value = "different">Ship to different Address<br>
-        <div id = "ship_info"></div>
-        <h2>Payment Information</h2>
-        Card Number<span id = result></span><br>
-        <input onchange = "validate()" type = "number" id = "cardNum" size = "18" max = "9999999999999999"><br>
-        Security Code<br>
-        <input type = "number" id = "security" size = "5" max = "999"><br>
-        Name on card<br>
-        <input type = "text" id = "name" size = "15"><br>
-        Expiration<br>
-        <input type = "month" id = "month" size = "4" max = "12"><br>
-        Email<br>
         <form method = "post">
+            <table>
+                <caption style="font-size: 25px;">Items in Cart</caption>
+                <tr>
+                    <th>Product #ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+                    <?php
+                        for($j=0; $j < count($product_id); $j++){
+                            echo "<tr><td>".$product_id[$j]."</td><td>".$product_name[$j]."</td><td>".$product_quantity[$j]."</td><td>".$product_price[$j]."</td></tr>";
+                        }
+                    ?>
+                <tr>
+                    <td colspan="4" style="text-align: right"><span style="color: red" id = "discount"></span>Coupon Code<input type = "text"/><button onclick = "coupon()">Apply</button></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: right"><?php echo "Total: $".$sum?></td>
+                </tr>
+            </table>
+            <h2>Billing Information</h2>
+            <div id = "bill_info">
+                First Name<br>
+                <input type = "text" id = "first_name" value="<?PHP echo $_SESSION['user_first']?>"><br>
+                Last Name<br>
+                <input type = "text" id = "last_name" value="<?PHP echo $_SESSION['user_last']?>"><br>
+                Address<br>
+                <input type = "text" id = "address1" value="<?PHP echo $_SESSION['user_adress']?>"><br>
+                <input type = "text" id = "address2"><br>
+                City<br>
+                <input type = "text" id = "city"><br>
+                State<br>
+                <input type = "text" id = "state" max = "2"><br>
+                Country<br>
+                <input type = "text" id = "country"><br>
+            </div>
+            Phone Number<br>
+            <input type = "number" id = "phone"><br>
+            <h2>Shipping Information</h2>
+            <input onclick = "shipping()" type = "radio" name = "ship" id = "same" value = "same" checked>Ship to same Address<br>
+            <input onclick = "shipping()" type = "radio" name = "ship" id = "dif" value = "different">Ship to different Address<br>
+            <div id = "ship_info"></div>
+            <h2>Payment Information</h2>
+            Card Number<span id = result></span><br>
+            <input onchange = "validate()" type = "number" id = "cardNum" size = "18" max = "9999999999999999"><br>
+            Security Code<br>
+            <input type = "number" id = "security" size = "5" max = "999"><br>
+            Name on card<br>
+            <input type = "text" id = "name" size = "15"><br>
+            Expiration<br>
+            <input type = "month" id = "month" size = "4" max = "12"><br>
+            Email<br>
+        
             <input type = "text" name = "email">
             <input type = "submit" name = "confirm" value = "confirm"> 
         </form>

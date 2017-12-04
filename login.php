@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include('connect.php');
     $test = "pphejlada1";
     // $test = "tnguyen366";
     if(isset($_POST['submit'])){
@@ -7,10 +8,27 @@
         $query = "SELECT * FROM users WHERE login = '" . $_POST['user'] . "' AND password = '" . $_POST['pass'] . "'";
         $sql = $db->query($query);
         $n = $sql->num_rows;
-        if($n > 0)
+        if($n > 0){
+            $_SESSION['signin'] = true;
+            if($_SESSION['signin']){
+                    $query1 = "SELECT * FROM users WHERE login = '" . $_POST['user'] . "' AND password = '" . $_POST['pass'] . "'";
+                    $rs = mysql_query($query1);
+                    if (!$rs) {
+                        echo "Could not execute query: $query1";
+                        trigger_error(mysql_error(), E_USER_ERROR); 
+                    }
+                    while ($row = mysql_fetch_assoc($rs)){
+                        $_SESSION['user_id'] = $row['customerid'];
+                        $_SESSION['user_first'] = $row['firstname'];
+                        $_SESSION['user_last'] = $row['lastname'];
+                        $_SESSION['user_adress'] = $row['address'];
+                    }
+                }
             header("Location: home.php");
-        else
+        }    
+        else {
             $error = "Invalid login username or password";
+        }
     }
 ?>
 <html>
@@ -35,7 +53,7 @@
         </style>
     </head>
     <body>
-        <h1>Login to [insert company name here]</h1>
+        <h1>Login to TACOCAT COMPANY</h1>
         <form method = "POST">
             <div class="login">
               <label><b>Username</b></label>

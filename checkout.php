@@ -55,6 +55,10 @@
                     }
                 ?>
             <tr>
+                <td colspan="5" style="text-align: right"><span style="color: red" id = "discount"></span>Coupon Code<input type = "text"/><button onclick = "coupon()">Apply</button></td>
+                
+            </tr>
+            <tr>
                 <td colspan="5" style="text-align: right"><?php echo "Total: $".$sum?></td>
             </tr>
         </table>
@@ -74,6 +78,8 @@
             Country<br>
             <input type = "text" id = "country"><br>
         </div>
+        Phone Number<br>
+        <input type = "number" id = "phone"><br>
         <h2>Shipping Information</h2>
         <input onclick = "shipping()" type = "radio" name = "ship" id = "same" value = "same" checked>Ship to same Address<br>
         <input onclick = "shipping()" type = "radio" name = "ship" id = "dif" value = "different">Ship to different Address<br>
@@ -93,6 +99,9 @@
             <input type = "submit" name = "confirm" value = "confirm"> 
         </form>
         <script>
+            function coupon(){
+                document.getElementById("discount").innerHTML = "Invalid Promo Code";
+            }
             function validate(){
                 var num = document.getElementById("cardNum").value;
                 var master = /^(5[1-5]|22([3-9][0-9]|2[1-9])|2([3-6][0-9]{2}|7([0-1][0-9]|20)))/g;

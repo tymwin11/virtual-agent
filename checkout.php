@@ -48,7 +48,7 @@
                 <th>Price</th>
             </tr>
                 <?php
-                    for($j=0; $j < count($product_id); $j++){
+                    for($j=0; $j < $x; $j++){
                         echo "<tr><td>".$product_id[$j]."</td><td>".$product_name[$j]."</td><td>".$product_quantity[$j]."</td><td>".$product_price[$j]."</td></tr>";
                     }
                 ?>

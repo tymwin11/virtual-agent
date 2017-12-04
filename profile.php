@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<
+
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Profile</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
@@ -41,6 +41,7 @@
         <?PHP 
             session_start();
             include('connect.php');
+            include('header');
             $query1 = "SELECT * FROM users";
             $rs = mysql_query($query1);
             if (!$rs) {
@@ -70,7 +71,7 @@
             Customer ID#:<input class="inputbox" value="<?PHP echo $_SESSION['user_id']?>"><br>
             First Name:<input class="inputbox" value="<?PHP echo $_SESSION['user_first']?>"><br>
             Last Name:<input class="inputbox" value="<?PHP echo $_SESSION['user_last']?>"><br>
-            Address:<input class="inputbox" value="<?PHP echo $_SESSION['user_address']?>"><br>
+            Address:<input class="inputbox" value="<?PHP echo $_SESSION['user_adress']?>"><br>
         </div>
         <div class="panel">
             <h2 class="panelheader">Past Purchases</h2>

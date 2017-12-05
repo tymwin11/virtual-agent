@@ -32,8 +32,9 @@
             table{
                 margin: auto;
             }
-            tr, td{
+            tr, th{
                 font-size: 15px;
+                padding: 20px;
             }
         </style>
     </head>
@@ -52,7 +53,7 @@
             }
                 while ($row = mysql_fetch_assoc($rs)){
                     $_SESSION['order_id'] = $row['orderid'];
-                    $_SESSION['order_status'] = $row['status'];
+                    $_SESSION['order_status'] = $row['order_status'];
                     $_SESSION['date'] = $row['date_purchased'];
                 }  
         ?> 

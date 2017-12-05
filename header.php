@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Tacocat Travel Agency - Home</title>
+    <title>Around the World - Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/home.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -15,7 +15,7 @@
     <nav class="navbar navbar-inverse" id="nav">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="home.php">Tacocat Travels</a>
+                <a class="navbar-brand" href="home.php">Around the World</a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="home.php">Home</a></li>

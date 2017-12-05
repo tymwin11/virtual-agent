@@ -34,9 +34,9 @@
 <html>
     <head>
         <title>Login</title>
+        <link rel="stylesheet" href="styles/home.css"/>
         <style>
             body{
-                background-color: paleturquoise;
                 text-align: center;
             }
             .login{
@@ -50,10 +50,22 @@
             .error{
                 color: red;
             }
+            h1{
+                border: 12px inset grey;
+                background-color:darkgrey;
+                margin: 10px;
+                text-align: center;
+                color:black;
+                text-shadow: 1px 1px 2px white, 0 0 25px white, 0 0 5px white;
+                padding: 20px;
+                font-size: 60px;
+                font-family: Comic;
+                font-style: bold;
+            }
         </style>
     </head>
     <body>
-        <h1>Login to TACOCAT COMPANY</h1>
+        <h1>Login to Around the World</h1>
         <form method = "POST">
             <div class="login">
               <label><b>Username</b></label>

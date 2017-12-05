@@ -5,8 +5,9 @@
     //ini_set('display_errors',1);
     $customer = $_SESSION['user_id'];
     $date = date("Y-m-d");
+    $update = "Preparing for Shipment";
     if(isset($_POST['confirm'])){
-        $sql = "INSERT INTO orders(customerid, date_purchased) VALUES($customer, DATE('$date'))";
+        $sql = "INSERT INTO orders(customerid, order_status, date_purchased) VALUES($customer, '$update', DATE('$date'))";
         $rs = mysql_query($sql);
         if (!$rs) {
             echo "Could not execute query: $sql";

@@ -68,36 +68,36 @@
             <h2>Billing Information</h2>
             <div id = "bill_info">
                 First Name<br>
-                <input type = "text" id = "first_name" value="<?PHP echo $_SESSION['user_first']?>"><br>
+                <input type = "text" id = "first_name" value="<?PHP echo $_SESSION['user_first']?>" required><br>
                 Last Name<br>
-                <input type = "text" id = "last_name" value="<?PHP echo $_SESSION['user_last']?>"><br>
+                <input type = "text" id = "last_name" value="<?PHP echo $_SESSION['user_last']?>" required><br>
                 Address<br>
-                <input type = "text" id = "address1" value="<?PHP echo $_SESSION['user_adress']?>"><br>
+                <input type = "text" id = "address1" value="<?PHP echo $_SESSION['user_adress']?>" required><br>
                 <input type = "text" id = "address2"><br>
                 City<br>
-                <input type = "text" id = "city"><br>
+                <input type = "text" id = "city" required><br>
                 State<br>
-                <input type = "text" id = "state" max = "2"><br>
+                <input type = "text" id = "state" max = "2" required><br>
                 Country<br>
-                <input type = "text" id = "country"><br>
+                <input type = "text" id = "country" required><br>
             </div>
             Phone Number<br>
-            <input type = "number" id = "phone"><br>
+            <input type = "number" id = "phone" required><br>
             <h2>Shipping Information</h2>
             <input onclick = "shipping()" type = "radio" name = "ship" id = "same" value = "same" checked>Ship to same Address<br>
             <input onclick = "shipping()" type = "radio" name = "ship" id = "dif" value = "different">Ship to different Address<br>
             <div id = "ship_info"></div>
             <h2>Payment Information</h2>
             Card Number<span id = result></span><br>
-            <input onchange = "validate()" type = "number" id = "cardNum" size = "18" max = "9999999999999999"><br>
+            <input onchange = "validate()" type = "number" id = "cardNum" size = "18" max = "9999999999999999" required><br>
             Security Code<br>
-            <input type = "number" id = "security" size = "5" max = "999"><br>
+            <input type = "number" id = "security" size = "5" max = "999" required><br>
             Name on card<br>
-            <input type = "text" id = "name" size = "15"><br>
+            <input type = "text" id = "name" size = "15" required><br>
             Expiration<br>
-            <input type = "month" id = "month" size = "4" max = "12"><br>
+            <input type = "month" id = "month" size = "4" max = "12" required><br>
             Email<br>
-            <input type = "text" name = "email"><br>
+            <input type = "text" name = "email" required><br>
             <input type = "submit" name = "confirm" value = "Submit Order"> 
         </form>
         <script>

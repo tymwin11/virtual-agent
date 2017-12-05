@@ -16,4 +16,9 @@ body{
 input{
     color: black;
 }
-
+input, button, select{
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    color: black;
+}

@@ -82,13 +82,22 @@
                 color: black;
             }
             h1{
+                border: 12px inset grey;
+                background-color:darkgrey;
+                margin: 10px;
                 text-align: center;
+                color:black;
+                text-shadow: 1px 1px 2px white, 0 0 25px white, 0 0 5px white;
+                padding: 20px;
+                font-size: 60px;
+                font-family: Comic;
+                font-style: bold;
             }
         </style>
     </head>
     <body>
         <div class = "parking">
-            <h1>Pre-Paying Parking</h1>
+            <h1>Pre-Pay Parking</h1>
             <form method = "POST">
                 Leaving<input type = "date" name = "leave_day">
                 <select name="times">

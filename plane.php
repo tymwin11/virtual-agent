@@ -7,6 +7,7 @@
 <html>
     <head>
         <title>Booking Flight</title>
+        <h1>Book a Flight</h1>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>

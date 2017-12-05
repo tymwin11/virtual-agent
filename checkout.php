@@ -13,6 +13,12 @@
             echo "Could not execute query: $sql";
             trigger_error(mysql_error(), E_USER_ERROR); 
         }
+        $sql = "TRUNCATE table shoppingcart";
+        $rs = mysql_query($sql);
+        if (!$rs) {
+            echo "Could not execute query: $sql";
+            trigger_error(mysql_error(), E_USER_ERROR); 
+        }
     }
     $query = "Select shoppingcart.productid, shoppingcart.product_quantity, shoppingcart.product_price, inventory.name from shoppingcart, inventory where shoppingcart.productid = inventory.productid";
     $rs = mysql_query($query);
@@ -29,12 +35,6 @@
         $product_price[$x] = $row['product_price'];
         $sum = $sum + $product_price[$x];
         $x++;
-    }
-    $sql = "TRUNCATE table shoppingcart";
-    $rs = mysql_query($sql);
-    if (!$rs) {
-        echo "Could not execute query: $sql";
-        trigger_error(mysql_error(), E_USER_ERROR); 
     }
 ?>
 <html>

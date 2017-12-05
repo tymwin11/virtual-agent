@@ -35,7 +35,7 @@
     if (!$rs) {
         echo "Could not execute query: $sql";
         trigger_error(mysql_error(), E_USER_ERROR); 
-    }        
+    }
 ?>
 <html>
     <head>
@@ -97,9 +97,8 @@
             Expiration<br>
             <input type = "month" id = "month" size = "4" max = "12"><br>
             Email<br>
-        
-            <input type = "text" name = "email">
-            <input type = "submit" name = "confirm" value = "confirm"> 
+            <input type = "text" name = "email"><br>
+            <input type = "submit" name = "confirm" value = "Submit Order"> 
         </form>
         <script>
             function coupon(){

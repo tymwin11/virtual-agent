@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXIST users (
+CREATE TABLE IF NOT EXISTS users (
 	customerid int NOT NULL AUTO_INCREMENT,
 	login varchar(255),
 	password varchar(255),
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXIST users (
 	PRIMARY_KEY(customerid)
 );
 
-CREATE TABLE IF NOT EXIST flight (
+CREATE TABLE IF NOT EXISTS flight (
 	flightid int NOT NULL AUTO_INCREMENT,
 	departure_city varchar(255),
 	arrival_city varchar(255),
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXIST flight (
 	PRIMARY_KEY(flightid)
 );
 
-CREATE TABLE IF NOT EXIST inventory (
+CREATE TABLE IF NOT EXISTS inventory (
 	productid int NOT NULL AUTO_INCREMENT,
 	name varchar(255),
 	price double(7,2),
@@ -25,21 +25,21 @@ CREATE TABLE IF NOT EXIST inventory (
 	PRIMARY_KEY(productid)
 );
 
-CREATE TABLE IF NOT EXIST orders (
+CREATE TABLE IF NOT EXISTS orders (
 	orderid int(6),
 	customerid int(6),
 	orders_status varchar(255),
 	date_purchased date,
 );
 
-CREATE TABLE IF NOT EXIST shoppingcart (
+CREATE TABLE IF NOT EXISTS shoppingcart (
 	customerid int(6),
 	productid int(6),
 	product_quanitity int(6),
 	product_price double(7,2),
 );
 
-CREATE TABLE IF NOT EXIST time (
+CREATE TABLE IF NOT EXISTS time (
 	flightid int(6),
 	timeid int NOT NULL AUTO_INCREMENT,
 	depature_time varchar(255),
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXIST time (
 	PRIMARY_KEY(timeid)
 );
 
-CREATE TABLE IF NOT EXIST seat (
+CREATE TABLE IF NOT EXISTS seat (
 	flightid int(6),
 	timeid int(6),
 	seatnumber varchar(255)

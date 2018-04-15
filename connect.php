@@ -1,7 +1,7 @@
 <?php
     $host = "localhost";
-    $test = "pphejlada1";
-    // $test = "tnguyen366";
+    //$test = "pphejlada1";
+    $test = "tnguyen366";
     
     $user = $test; 
     $pass = $test;

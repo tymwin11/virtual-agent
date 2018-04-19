@@ -6,7 +6,7 @@
         $db = new mysqli("localhost", $test, $test, $test);
         $address = $_POST['address1'] . " " . $_POST['address2'];
         $md5pass = md5($_POST['pass']);
-        $query = "INSERT INTO users(login, password, firstname, lastname, address) VALUES ('". $_POST['user'] . "','" . $md5pass . "','" . $_POST['first'] . "','" . $_POST['last'] . "','" . $address . "')";
+        $query = "INSERT INTO users(login, password, firstname, lastname, address) VALUES ('". $_POST['user'] . "','" . $_POST['pass'] . "','" . $_POST['first'] . "','" . $_POST['last'] . "','" . $address . "')";
         $sql = $db->query($query);
         $query2 = "INSERT INTO shoppingcart(customerid) SELECT customerid FROM users";
         $sql2 = $db->query($query2);
